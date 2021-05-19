@@ -17,7 +17,7 @@ ADD package.json /package.json
 RUN npm install
 WORKDIR /src
 
-EXPOSE  8085
+EXPOSE  8166
 
 # Run startup command.
 CMD ["node", "/src/index.js"]
