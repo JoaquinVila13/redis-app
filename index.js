@@ -10,22 +10,22 @@ client.on("error", (err) => {
     console.log(err);
 });
 
-app.get("/jobs", (req, res) => {
+app.get("/states", (req, res) => {
     const searchTerm = req.query.search;
     try {
-        client.get(searchTerm, async (err, jobs) => {
+        client.get(searchTerm, async (err, states) => {
             if (err) throw err;
     
-            if (jobs) {
+            if (states) {
                 res.status(200).send({
-                    jobs: JSON.parse(jobs),
+                    states: JSON.parse(states),
                     message: "data retrieved from the cache"
                 });
             } else {
-                const jobs = await axios.get(`https://jobs.github.com/positions.json?search=${searchTerm}`);
-                client.setex(searchTerm, 600, JSON.stringify(jobs.data));
+                const states = await axios.get(`https://corona.lmao.ninja/v2/states?search=${searchTerm}`);
+                client.setex(searchTerm, 600, JSON.stringify(states.data));
                 res.status(200).send({
-                    jobs: jobs.data,
+                    states: states.data,
                     message: "cache miss"
                 });
             }
